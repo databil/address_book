@@ -28,7 +28,26 @@ public class Main {
                    }
                    break;
                case 2:
-                   System.out.println("Search Contact");
+                   System.out.println("Search Contact by phone");
+                   System.out.println("Enter phone to search: ");
+                   String searchPhone = scanner.next();
+
+                   boolean contactFound = false;
+
+                   for (String contact: contacts) {
+                       if (contact != null) {
+                           String[] contactSplitted = contact.split(" ");
+                           if (contactSplitted[2].startsWith(searchPhone)) {
+                               System.out.println("Contact Found: "+contact);
+                               contactFound = true;
+                           }
+                       }
+                   }
+
+                   if (!contactFound) {
+                       System.out.println("No contact with such phone number!");
+                   }
+
                    break;
                case 3:
                    System.out.println("Delete Contact");
