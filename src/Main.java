@@ -1,15 +1,12 @@
-import model.Contact;
-
 import java.util.Scanner;
 
 public class Main {
-
-
+    static final String DELIMITER = ";";
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-        Contact[] contacts = new Contact[3];
 
+        Scanner scanner = new Scanner(System.in);
+        String[] contacts = new String[3];
         int nextEmpty = 0;
         int command;
 
@@ -26,7 +23,7 @@ public class Main {
                    System.out.println("Phone");
                    String phone = scanner.next();
                    if (nextEmpty != contacts.length) {
-                       contacts[nextEmpty] = new Contact(name, surname, phone);
+                       contacts[nextEmpty] = name + DELIMITER + surname + DELIMITER + phone;
                        nextEmpty++;
                    } else {
                        System.out.println("Memory Full");
@@ -40,7 +37,7 @@ public class Main {
 
                    int foundIndex = findContactIndexByPhone(contacts, searchPhone);
                    if (foundIndex != -1) {
-                       System.out.println("Found contact: " + contacts[foundIndex]);
+                       System.out.println("Found contact: "+contacts[foundIndex]);
                    } else {
                        System.out.println("No contact with such phone number!");
                    }
@@ -59,7 +56,7 @@ public class Main {
                    System.out.println("Phone");
                    String newPhone = scanner.next();
 
-                   contacts[updateIndex] = new Contact(newName, newSurname, newPhone);
+                   contacts[updateIndex] = newName + DELIMITER + newSurname + DELIMITER + newPhone;
                    System.out.println("Contact Updated!");
                    break;
 
@@ -83,7 +80,7 @@ public class Main {
 
                    break;
                case 5:
-                   for (Contact contact : contacts) {
+                   for (String contact : contacts) {
                        System.out.println(contact);
                    }
                    break;
@@ -95,13 +92,14 @@ public class Main {
 
     }
 
-    public static int findContactIndexByPhone(Contact[] contacts, String searchString) {
+    public static int findContactIndexByPhone(String[] contacts, String searchString) {
         int foundIndex = -1;
 
         for (int i = 0; i < contacts.length; i++) {
-            Contact contact = contacts[i];
+            String contact = contacts[i];
             if (contact != null) {
-                if (contact.getPhone().equals(searchString)) {
+                String[] contactSplitted = contact.split(DELIMITER);
+                if (contactSplitted[2].equals(searchString)) {
                     foundIndex = i;
                     break;
                 }
