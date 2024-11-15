@@ -2,6 +2,8 @@ package service;
 import model.Contact;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ContactService {
 
@@ -36,6 +38,21 @@ public class ContactService {
         }
 
         return null;
+    }
+
+    public String findByPhonePrefix(String phonePrefix) {
+
+        List<Contact> filteredList = contacts.stream().filter(c -> c.getPhone().startsWith(phonePrefix)).toList();
+
+      /*  ArrayList<Contact> foundContacts = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+            if (contact.getPhone().startsWith(phonePrefix)) {
+                foundContacts.add(contact);
+            }
+        }
+*/
+        return filteredList.toString();
     }
 
     public String printContacts() {

@@ -77,6 +77,10 @@ public class Main {
                case 5:
                    System.out.println(contactService.printContacts());
                    break;
+
+               case 7:
+                   System.out.println(contactService.findByPhonePrefix("123"));
+                   break;
                default:
                    System.err.println("Invalid command, Command should be in range 1,2,3,4");
                    break;
