@@ -1,4 +1,5 @@
 import model.Contact;
+import service.ContactService;
 
 import java.util.Scanner;
 
@@ -8,9 +9,8 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        Contact[] contacts = new Contact[3];
+        ContactService contactService = new ContactService();
 
-        int nextEmpty = 0;
         int command;
 
        do {
@@ -25,12 +25,7 @@ public class Main {
                    String surname = scanner.next();
                    System.out.println("Phone");
                    String phone = scanner.next();
-                   if (nextEmpty != contacts.length) {
-                       contacts[nextEmpty] = new Contact(name, surname, phone);
-                       nextEmpty++;
-                   } else {
-                       System.out.println("Memory Full");
-                   }
+                   contactService.save(new Contact(name, surname, phone));
                    break;
 
                case 2:
@@ -38,9 +33,10 @@ public class Main {
                    System.out.println("Enter phone to search: ");
                    String searchPhone = scanner.next();
 
-                   int foundIndex = findContactIndexByPhone(contacts, searchPhone);
-                   if (foundIndex != -1) {
-                       System.out.println("Found contact: " + contacts[foundIndex]);
+                   Contact foundContact = contactService.findByPhone(searchPhone);
+
+                   if (foundContact != null) {
+                       System.out.println("Found contact: " + foundContact);
                    } else {
                        System.out.println("No contact with such phone number!");
                    }
@@ -51,16 +47,23 @@ public class Main {
                    System.out.println("Enter phone to search: ");
                    String updatePhone = scanner.next();
 
-                   int updateIndex = findContactIndexByPhone(contacts, updatePhone);
-                   System.out.println("Name:");
-                   String newName = scanner.next();
-                   System.out.println("Surname");
-                   String newSurname = scanner.next();
-                   System.out.println("Phone");
-                   String newPhone = scanner.next();
+                   Contact updateContact = contactService.findByPhone(updatePhone);
 
-                   contacts[updateIndex] = new Contact(newName, newSurname, newPhone);
-                   System.out.println("Contact Updated!");
+                   if (updateContact != null) {
+                       System.out.println("Name:");
+                       String newName = scanner.next();
+                       System.out.println("Surname");
+                       String newSurname = scanner.next();
+                       System.out.println("Phone");
+                       String newPhone = scanner.next();
+
+                       contactService.update(new Contact(newName, newSurname, newPhone));
+
+                       System.out.println("Contact Updated!");
+                   } else {
+                       System.out.println("No contact with such phone number!");
+                   }
+
                    break;
 
                case 4:
@@ -68,24 +71,15 @@ public class Main {
                    System.out.println("Enter phone to delete: ");
                    String deletePhone = scanner.next();
 
-                   int deleteIndex = findContactIndexByPhone(contacts, deletePhone);
-
-                   if (deleteIndex != -1) {
-                       System.out.println("Contact Found: "+contacts[deleteIndex]);
-                       for (int j = deleteIndex; j < contacts.length - 1; j++) {
-                           contacts[j] = contacts[j+1];
-                       }
-                       contacts[contacts.length - 1] = null;
-                       nextEmpty--;
-                   } else {
-                       System.out.println("No such contact!");
-                   }
+                   contactService.delete(deletePhone);
 
                    break;
                case 5:
-                   for (Contact contact : contacts) {
-                       System.out.println(contact);
-                   }
+                   System.out.println(contactService.printContacts());
+                   break;
+
+               case 7:
+                   System.out.println(contactService.findByPhonePrefix("123"));
                    break;
                default:
                    System.err.println("Invalid command, Command should be in range 1,2,3,4");
@@ -93,21 +87,5 @@ public class Main {
            }
        } while (command != 6);
 
-    }
-
-    public static int findContactIndexByPhone(Contact[] contacts, String searchString) {
-        int foundIndex = -1;
-
-        for (int i = 0; i < contacts.length; i++) {
-            Contact contact = contacts[i];
-            if (contact != null) {
-                if (contact.getPhone().equals(searchString)) {
-                    foundIndex = i;
-                    break;
-                }
-            }
-        }
-
-        return foundIndex;
     }
 }
