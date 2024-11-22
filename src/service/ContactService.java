@@ -2,22 +2,28 @@ package service;
 import model.Contact;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class ContactService {
 
     ArrayList<Contact> contacts = new ArrayList<>();
 
+    String nameRegex = "^[A-Z][a-zA-Z '.-]*[A-Za-z]$";
+    String phoneRegex = "^([+]?\\d{1,3}[-\\s]?|)\\d{3}[-\\s]?\\d{3}[-\\s]?\\d{3}$";
+
     //save
     //update
     //delete
     //find
 
-    public void save(Contact contact) {
-        contacts.add(contact);
+    public void save(Contact contact) throws InputMismatchException {
+       validateContact(contact);
+       contacts.add(contact);
     }
 
     public void update(Contact newContact) {
+        validateContact(newContact);
         Contact oldContact = findByPhone(newContact.getPhone());
         contacts.remove(oldContact);
         contacts.add(newContact);
@@ -52,6 +58,18 @@ public class ContactService {
         }
 */
         return filteredList;
+    }
+
+    private void validateContact(Contact contact) throws InputMismatchException {
+        if (!contact.getName().matches(nameRegex)) {
+            throw new InputMismatchException();
+        }
+        if (!contact.getSurname().matches(nameRegex)) {
+            throw new InputMismatchException();
+        }
+        if (!contact.getPhone().matches(phoneRegex)) {
+            throw new InputMismatchException();
+        }
     }
 
     public String printContacts() {

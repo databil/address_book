@@ -1,6 +1,7 @@
 import model.Contact;
 import service.ContactService;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -16,17 +17,26 @@ public class Main {
        do {
            System.out.println("1.Create Contact\n2.Search Contact\n3.Update\n4.Delete Contact\n5.List All Contacts\n6.Exit");
            command = scanner.nextInt();
+           scanner.nextLine();
            switch (command) {
                case 1:
                    System.out.println("Create Contact");
                    System.out.println("Name:");
                    String name = scanner.next();
+
                    System.out.println("Surname");
                    String surname = scanner.next();
+
+                   //TODO fix scanner reads Line
                    System.out.println("Phone");
-                   String phone = scanner.next();
-                   contactService.save(new Contact(name, surname, phone));
+                   String phone = scanner.nextLine();
+                   try {
+                       contactService.save(new Contact(name, surname, phone));
+                   } catch (InputMismatchException e) {
+                       System.out.println("Incorrect input, try again! Name/Surname should be A-Z a-z1.phone format +996 xxx xxx xxx");
+                   }
                    break;
+
 
                case 2:
                    System.out.println("Search Contact by phone");

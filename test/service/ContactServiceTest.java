@@ -5,6 +5,7 @@ import model.Contact;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.InputMismatchException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,11 +25,16 @@ public class ContactServiceTest {
     public void contactSaveTest() {
 
         //Given
-        Contact contact1 = new Contact("John", "Smith", "12345");
+        Contact contact1 = new Contact("John", "Smith", "+996 555 223 222");
+        Contact contactPhoneIncorrect = new Contact("Will", "Smith", "123");
 
         //When
         contactService.save(contact1);
-        Contact contact = contactService.findByPhone("12345");
+        assertThrows(InputMismatchException.class, () -> {
+            contactService.save(contactPhoneIncorrect);
+        });
+
+        Contact contact = contactService.findByPhone("+996 555 223 222");
 
         //Then
         assertEquals(contact1, contact);
@@ -107,5 +113,7 @@ public class ContactServiceTest {
         assertTrue(foundContacts.contains(contact1));
 
     }
+
+    //Test Validation
 
 }
