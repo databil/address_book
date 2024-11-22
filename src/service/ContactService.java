@@ -3,7 +3,6 @@ import model.Contact;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ContactService {
 
@@ -40,7 +39,7 @@ public class ContactService {
         return null;
     }
 
-    public String findByPhonePrefix(String phonePrefix) {
+    public List<Contact> findByPhonePrefix(String phonePrefix) {
 
         List<Contact> filteredList = contacts.stream().filter(c -> c.getPhone().startsWith(phonePrefix)).toList();
 
@@ -52,11 +51,15 @@ public class ContactService {
             }
         }
 */
-        return filteredList.toString();
+        return filteredList;
     }
 
     public String printContacts() {
         return contacts.toString();
+    }
+
+    public int getContactSize() {
+        return contacts.size();
     }
 
 }
