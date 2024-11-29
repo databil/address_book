@@ -14,88 +14,89 @@ public class Main {
 
         int command;
 
-       do {
-           System.out.println("1.Create Contact\n2.Search Contact\n3.Update\n4.Delete Contact\n5.List All Contacts\n6.Exit");
-           command = scanner.nextInt();
-           scanner.nextLine();
-           switch (command) {
-               case 1:
-                   System.out.println("Create Contact");
-                   System.out.println("Name:");
-                   String name = scanner.next();
+        do {
+            System.out.println("1.Create Contact\n2.Search Contact\n3.Update\n4.Delete Contact\n5.List All Contacts\n6.Exit");
+            command = scanner.nextInt();
+            scanner.nextLine();
+            switch (command) {
+                case 1:
+                    System.out.println("Create Contact");
+                    System.out.println("Name:");
+                    String name = scanner.next();
+                    scanner.nextLine();
 
-                   System.out.println("Surname");
-                   String surname = scanner.next();
+                    System.out.println("Surname");
+                    String surname = scanner.next();
+                    scanner.nextLine();
 
-                   //TODO fix scanner reads Line
-                   System.out.println("Phone");
-                   String phone = scanner.nextLine();
-                   try {
-                       contactService.save(new Contact(name, surname, phone));
-                   } catch (InputMismatchException e) {
-                       System.out.println("Incorrect input, try again! Name/Surname should be A-Z a-z1.phone format +996 xxx xxx xxx");
-                   }
-                   break;
+                    System.out.println("Phone");
+                    String phone = scanner.nextLine();
+                    try {
+                        contactService.save(new Contact(name, surname, phone));
+                    } catch (InputMismatchException e) {
+                        System.out.println("Incorrect input, try again! Name/Surname should be A-Z a-z1.phone format +996 xxx xxx xxx");
+                    }
+                    break;
 
 
-               case 2:
-                   System.out.println("Search Contact by phone");
-                   System.out.println("Enter phone to search: ");
-                   String searchPhone = scanner.next();
+                case 2:
+                    System.out.println("Search Contact by phone");
+                    System.out.println("Enter phone to search: ");
+                    String searchPhone = scanner.next();
 
-                   Contact foundContact = contactService.findByPhone(searchPhone);
+                    Contact foundContact = contactService.findByPhone(searchPhone);
 
-                   if (foundContact != null) {
-                       System.out.println("Found contact: " + foundContact);
-                   } else {
-                       System.out.println("No contact with such phone number!");
-                   }
+                    if (foundContact != null) {
+                        System.out.println("Found contact: " + foundContact);
+                    } else {
+                        System.out.println("No contact with such phone number!");
+                    }
 
-                   break;
-               case 3:
-                   System.out.println("Update Contact");
-                   System.out.println("Enter phone to search: ");
-                   String updatePhone = scanner.next();
+                    break;
+                case 3:
+                    System.out.println("Update Contact");
+                    System.out.println("Enter phone to search: ");
+                    String updatePhone = scanner.next();
 
-                   Contact updateContact = contactService.findByPhone(updatePhone);
+                    Contact updateContact = contactService.findByPhone(updatePhone);
 
-                   if (updateContact != null) {
-                       System.out.println("Name:");
-                       String newName = scanner.next();
-                       System.out.println("Surname");
-                       String newSurname = scanner.next();
-                       System.out.println("Phone");
-                       String newPhone = scanner.next();
+                    if (updateContact != null) {
+                        System.out.println("Name:");
+                        String newName = scanner.next();
+                        System.out.println("Surname");
+                        String newSurname = scanner.next();
+                        System.out.println("Phone");
+                        String newPhone = scanner.next();
 
-                       contactService.update(new Contact(newName, newSurname, newPhone));
+                        contactService.update(new Contact(newName, newSurname, newPhone));
 
-                       System.out.println("Contact Updated!");
-                   } else {
-                       System.out.println("No contact with such phone number!");
-                   }
+                        System.out.println("Contact Updated!");
+                    } else {
+                        System.out.println("No contact with such phone number!");
+                    }
 
-                   break;
+                    break;
 
-               case 4:
-                   System.out.println("Delete Contact by Phone");
-                   System.out.println("Enter phone to delete: ");
-                   String deletePhone = scanner.next();
+                case 4:
+                    System.out.println("Delete Contact by Phone");
+                    System.out.println("Enter phone to delete: ");
+                    String deletePhone = scanner.next();
 
-                   contactService.delete(deletePhone);
+                    contactService.delete(deletePhone);
 
-                   break;
-               case 5:
-                   System.out.println(contactService.printContacts());
-                   break;
+                    break;
+                case 5:
+                    System.out.println(contactService.printContacts());
+                    break;
 
-               case 7:
-                   System.out.println(contactService.findByPhonePrefix("123"));
-                   break;
-               default:
-                   System.err.println("Invalid command, Command should be in range 1,2,3,4");
-                   break;
-           }
-       } while (command != 6);
+                case 7:
+                    System.out.println(contactService.findByPhonePrefix("123"));
+                    break;
+                default:
+                    System.err.println("Invalid command, Command should be in range 1,2,3,4");
+                    break;
+            }
+        } while (command != 6);
 
     }
 }
