@@ -9,7 +9,11 @@ import java.util.stream.Collectors;
 
 public class FileRepository {
 
-    private final String FILE_PATH = "/home/mirlan/IdeaProjects/address_book/ab.csv";
+    private String FILE_PATH;
+
+    public FileRepository(String filePath) {
+        this.FILE_PATH = filePath;
+    }
 
     /*
       open file

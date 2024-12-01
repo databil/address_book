@@ -13,8 +13,8 @@ public class ContactService {
     String nameRegex = "^[A-Z][a-zA-Z '.-]*[A-Za-z]$";
     String phoneRegex = "^([+]?\\d{1,3}[-\\s]?|)\\d{3}[-\\s]?\\d{3}[-\\s]?\\d{3}$";
 
-    public ContactService() {
-        fileRepository = new FileRepository();
+    public ContactService(String filePath) {
+        fileRepository = new FileRepository(filePath);
         this.contacts = fileRepository.readContacts();
     }
     //save
