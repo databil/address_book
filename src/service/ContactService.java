@@ -1,17 +1,22 @@
 package service;
 import model.Contact;
+import repository.FileRepository;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 
 public class ContactService {
 
-    ArrayList<Contact> contacts = new ArrayList<>();
+    private final FileRepository fileRepository;
+    List<Contact> contacts;
 
     String nameRegex = "^[A-Z][a-zA-Z '.-]*[A-Za-z]$";
     String phoneRegex = "^([+]?\\d{1,3}[-\\s]?|)\\d{3}[-\\s]?\\d{3}[-\\s]?\\d{3}$";
 
+    public ContactService(String filePath) {
+        fileRepository = new FileRepository(filePath);
+        this.contacts = fileRepository.readContacts();
+    }
     //save
     //update
     //delete
@@ -20,6 +25,7 @@ public class ContactService {
     public void save(Contact contact) throws InputMismatchException {
        validateContact(contact);
        contacts.add(contact);
+       fileRepository.writeContacts(contacts);
     }
 
     public void update(Contact newContact) {
@@ -27,11 +33,13 @@ public class ContactService {
         Contact oldContact = findByPhone(newContact.getPhone());
         contacts.remove(oldContact);
         contacts.add(newContact);
+        fileRepository.writeContacts(contacts);
     }
 
     public void delete(String phone) {
         Contact contact = findByPhone(phone);
         contacts.remove(contact);
+        fileRepository.writeContacts(contacts);
     }
 
     public Contact findByPhone(String phone) {
