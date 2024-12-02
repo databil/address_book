@@ -1,12 +1,18 @@
 package model;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Contact {
 
     private String name;
+
     private String surname;
+
     private String phone;
 
-    public Contact(String name, String surname, String phone) {
+    public Contact() {}
+    public Contact(@JsonProperty("name") String name,
+                   @JsonProperty("surname") String surname,
+                   @JsonProperty("phone") String phone) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
@@ -38,6 +44,10 @@ public class Contact {
 
     @Override
     public String toString() {
-        return name + ';' + surname + ';' + phone ;
+        return "Contact{" +
+                "name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", surname='" + surname + '\'' +
+                '}';
     }
 }

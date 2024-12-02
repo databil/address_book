@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        ContactService contactService = new ContactService("/home/mirlan/IdeaProjects/address_book/ab.csv");
+        ContactService contactService = new ContactService("/home/mirlan/IdeaProjects/address_book/ab.json");
 
         int command;
 
